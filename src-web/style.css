@@ -1,0 +1,78 @@
+:root {
+    /* 使用 Nord Theme 的配色，沒有為什麼，只是我喜歡而已 */
+    --nord0: #2e3440;
+    --nord1: #3b4252;
+    --nord2: #434c5e;
+    --nord3: #4c566a;
+    --nord4: #d8dee9;
+    --nord5: #e5e9f0;
+    --nord6: #eceff4;
+    --nord7: #8fbcbb;
+    --nord8: #88c0d0;
+    --nord9: #81a1c1;
+    --nord10: #5e81ac;
+    --nord11: #bf616a;
+    --nord12: #d08770;
+    --nord13: #ebcb8b;
+    --nord14: #a3be8c;
+    --nord15: #b48ead;
+}
+
+* {
+    position: relative;
+}
+
+html,
+body {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+body {
+    background: var(--nord6);
+    color: var(--nord0);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.label {
+    @apply block uppercase tracking-wide text-nord1 text-xs font-bold mb-2 cursor-pointer;
+}
+
+.upload-label {
+    @apply text-nord10 mx-3 cursor-pointer;
+}
+
+.editor-wrap {
+    @apply appearance-none block w-full bg-nord4 text-nord0 border border-nord4 rounded-lg mb-3 leading-tight overflow-hidden focus:outline-none focus:bg-nord6 focus:border-nord3 transition duration-300 ease-in-out;
+}
+
+#download {
+    @apply text-nord10;
+}
+
+.success {
+    text-shadow: 0 0 var(--nord1);
+    @apply text-nord14;
+}

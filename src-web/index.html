@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Code Cross Check</title>
+    </head>
+    <body>
+        <div id="container" class="w-full lg:w-5/6 overflow-y-auto overflow-x-hidden py-6 lg:px-40 transition duration-500" style="opacity: 0">
+            <div class="w-full">
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full px-3">
+                        <span class="label">
+                            Testcase Generator
+                            <label class="upload-label">Upload<input id="testcase-file" type="file" /></label>
+                        </span>
+                        <div id="testcase-wrap" class="editor-wrap h-72"></div>
+                        <p class="text-gray-600 text-xs italic"></p>
+                    </div>
+                </div>
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full px-3">
+                        <span class="label">
+                            Preprocessor
+                            <label class="upload-label">Upload<input id="preprocessor-file" type="file" /></label>
+                        </span>
+                        <div id="preprocessor-wrap" class="editor-wrap h-72"></div>
+                        <p class="text-gray-600 text-xs italic"></p>
+                    </div>
+                </div>
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full px-3">
+                        <span class="label">
+                            Source 0
+                            <label class="upload-label">Upload<input id="source_0-file" type="file" /></label>
+                        </span>
+                        <div id="source_0-wrap" class="editor-wrap h-72"></div>
+                        <p class="text-gray-600 text-xs italic"></p>
+                    </div>
+                </div>
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full px-3">
+                        <span class="label">
+                            Source 1
+                            <label class="upload-label">Upload<input id="source_1-file" type="file" /></label>
+                        </span>
+                        <div id="source_1-wrap" class="editor-wrap h-72"></div>
+                        <p class="text-gray-600 text-xs italic"></p>
+                    </div>
+                </div>
+                <button id="check" class="bg-nord8 hover:bg-nord9 text-white font-bold py-2 px-4 rounded transition duration-300 linear">Cross Check</button>
+            </div>
+            <div class="w-full my-3 py-3">
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full px-3">
+                        <label class="label"> Result </label>
+                        <a id="download" style="display: none" href="javascript:void(0)"> Download JSON Result </a>
+                        <div id="result" class="w-full bg-nord4 text-nord0 border border-nord4 rounded py-3 px-4 mb-3 leading-tight font-mono"></div>
+                        <p class="text-gray-600 text-xs italic"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="module" src="/main.js"></script>
+    </body>
+</html>
