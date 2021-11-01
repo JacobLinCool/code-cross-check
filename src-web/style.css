@@ -57,22 +57,44 @@ input[type="file"] {
 }
 
 .label {
-    @apply block uppercase tracking-wide text-nord1 text-xs font-bold mb-2 cursor-pointer;
+    @apply block uppercase tracking-wide text-nord1 font-bold mb-2 cursor-pointer text-sm;
 }
 
-.upload-label {
-    @apply text-nord10 mx-3 cursor-pointer;
+.upload-label,
+.fetch-label {
+    @apply text-nord10 px-2 cursor-pointer;
 }
 
 .editor-wrap {
     @apply appearance-none block w-full bg-nord4 text-nord0 border border-nord4 rounded-lg mb-3 leading-tight overflow-hidden focus:outline-none focus:bg-nord6 focus:border-nord3 transition duration-300 ease-in-out;
 }
 
+.success {
+    text-shadow: 0 0 var(--nord1);
+    @apply text-nord14;
+}
+
 #download {
     @apply text-nord10;
 }
 
-.success {
-    text-shadow: 0 0 var(--nord1);
-    @apply text-nord14;
+#result {
+    @apply w-full bg-nord4 text-nord0 border border-nord4 rounded py-3 px-4 mb-3 leading-tight font-mono;
+}
+
+#check {
+    @apply bg-nord8 hover:bg-nord9 text-white font-bold py-2 px-4 rounded transition duration-300;
+}
+
+#container {
+    @apply w-full lg:w-5/6 overflow-y-auto overflow-x-hidden py-6 lg:px-40 transition duration-500;
+}
+
+#popup {
+    z-index: 999;
+    @apply w-full h-full fixed top-0 left-0 hidden items-center justify-center;
+}
+
+#popup-body {
+    @apply w-full lg:w-1/2 h-auto bg-nord4 text-nord0 border border-nord4 rounded-lg p-4;
 }

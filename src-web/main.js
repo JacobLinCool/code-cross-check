@@ -20,6 +20,18 @@ import setUp from "./setup";
     document.querySelector("#source_1-file").addEventListener("change", async (e) => {
         source_1_editor.setValue(await readFile(e.target.files[0]));
     });
+    document.querySelector("#testcase-fetch").addEventListener("click", async () => {
+        popup(async (val) => testcase_editor.setValue(await fetchCode(val)));
+    });
+    document.querySelector("#preprocessor-fetch").addEventListener("click", async () => {
+        popup(async (val) => preprocessor_editor.setValue(await fetchCode(val)));
+    });
+    document.querySelector("#source_0-fetch").addEventListener("click", async () => {
+        popup(async (val) => source_0_editor.setValue(await fetchCode(val)));
+    });
+    document.querySelector("#source_1-fetch").addEventListener("click", async () => {
+        popup(async (val) => source_1_editor.setValue(await fetchCode(val)));
+    });
     [...document.querySelectorAll(".label")].forEach((label) => {
         label.addEventListener("click", (e) => {
             if (label !== e.target) return;
@@ -46,7 +58,9 @@ import setUp from "./setup";
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ testcase, preprocessor, source_0, source_1 }),
-        }).then((res) => res.json());
+        })
+            .then((res) => res.json())
+            .catch(() => null);
 
         document.querySelector("#download").style.display = "none";
         document.querySelector("#result").innerHTML = "It May Take A Few Moments. Please Wait.";
@@ -56,9 +70,13 @@ import setUp from "./setup";
         }, 1000);
         const result = await api;
         clearInterval(dots);
-        downloadable = result;
-        document.querySelector("#download").style.display = "";
-        document.querySelector("#result").innerHTML = viewable(result);
+        if (result) {
+            downloadable = result;
+            document.querySelector("#download").style.display = "";
+            document.querySelector("#result").innerHTML = viewable(result);
+        } else {
+            document.querySelector("#result").innerHTML = "Something Went Wrong. Please Try Again.";
+        }
         document.querySelector("#result").scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
@@ -117,5 +135,35 @@ import setUp from "./setup";
             reader.onerror = reject;
             reader.readAsText(file);
         });
+    }
+
+    function popup(callback) {
+        document.querySelector("#container").style.filter = "blur(5px)";
+        document.querySelector("#popup").style.display = "flex";
+        document.querySelector("#popup-input").focus();
+        document.querySelector("#popup-input").onkeydown = async (e) => {
+            e.target.value = e.target.value.trim();
+            if (e.key === "Enter") {
+                e.target.disabled = true;
+                e.target.onkeydown = null;
+                if (e.target.value) await callback(e.target.value);
+                e.target.value = "";
+                e.target.disabled = false;
+                document.querySelector("#popup").style.display = "none";
+                document.querySelector("#container").style.filter = "blur(0px)";
+            }
+        };
+    }
+
+    async function fetchCode(url) {
+        try {
+            if (url.match(/github\.com\/([^\/]+)\/([^\/]+)\/blob\/([^\/]+)\/([^]+)/)) {
+                const [, owner, repo, branch, file] = url.match(/github\.com\/([^\/]+)\/([^\/]+)\/blob\/([^\/]+)\/([^]+)/);
+                return await fetch(`https://cdn.jsdelivr.net/gh/${owner}/${repo}@${branch}/${file}`).then((res) => res.text());
+            }
+            return await fetch(url).then((res) => res.text());
+        } catch (e) {
+            return "";
+        }
     }
 })();
