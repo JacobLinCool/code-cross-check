@@ -4,7 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "npm run build && node index.js",
+        "prepare": "npm run build",
+        "start": "node index.js",
         "dev": "vite",
         "build": "vite build --emptyOutDir",
         "serve": "vite preview"
