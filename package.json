@@ -17,6 +17,8 @@
     },
     "license": "ISC",
     "dependencies": {
+        "@supabase/supabase-js": "^1.25.2",
+        "dotenv": "^10.0.0",
         "koa": "^2.13.4",
         "koa-body": "^4.2.0",
         "koa-compress": "^5.1.0",
