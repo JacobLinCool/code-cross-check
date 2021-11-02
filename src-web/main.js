@@ -32,6 +32,12 @@ import setUp from "./setup";
     document.querySelector("#source_1-fetch").addEventListener("click", async () => {
         popup(async (val) => source_1_editor.setValue(await fetchCode(val)));
     });
+    document.querySelector("#hash").addEventListener("click", async (e) => {
+        const url = new URL(window.location.origin + window.location.pathname);
+        url.hash = "#" + e.target.innerHTML;
+        const win = window.open("", "_blank");
+        win.location = url;
+    });
     [...document.querySelectorAll(".label")].forEach((label) => {
         label.addEventListener("click", (e) => {
             if (label !== e.target) return;
@@ -45,6 +51,25 @@ import setUp from "./setup";
             }
         });
     });
+
+    if (window.location.hash) {
+        const hash = window.location.hash.substr(1, 32);
+        if (hash.length === 32) {
+            const data = await retrieve(hash);
+            if (data) {
+                downloadable = data.result;
+                testcase_editor.setValue(data.testcase);
+                preprocessor_editor.setValue(data.preprocessor);
+                source_0_editor.setValue(data.source_0);
+                source_1_editor.setValue(data.source_1);
+                document.querySelector("#result").innerHTML = viewable(data.result);
+                document.querySelector("#hash").innerHTML = data.hash;
+                console.log("Retrieved", data.hash, JSON.stringify(data).length);
+            } else {
+                console.log("No data found");
+            }
+        }
+    }
 
     document.querySelector("#container").style.opacity = 1;
 
@@ -62,6 +87,7 @@ import setUp from "./setup";
             .then((res) => res.json())
             .catch(() => null);
 
+        document.querySelector("#check").disabled = true;
         document.querySelector("#download").style.display = "none";
         document.querySelector("#result").innerHTML = "It May Take A Few Moments. Please Wait.";
         document.querySelector("#result").scrollIntoView({ behavior: "smooth", block: "center" });
@@ -70,14 +96,17 @@ import setUp from "./setup";
         }, 1000);
         const result = await api;
         clearInterval(dots);
-        if (result) {
-            downloadable = result;
+        if (result && result.result) {
+            downloadable = result.result;
             document.querySelector("#download").style.display = "";
-            document.querySelector("#result").innerHTML = viewable(result);
+            document.querySelector("#result").innerHTML = viewable(result.result);
+            document.querySelector("#hash").innerHTML = result.hash;
+            console.log(result);
         } else {
             document.querySelector("#result").innerHTML = "Something Went Wrong. Please Try Again.";
         }
         document.querySelector("#result").scrollIntoView({ behavior: "smooth", block: "start" });
+        document.querySelector("#check").disabled = false;
     }
 
     function downloadResult() {
@@ -164,6 +193,17 @@ import setUp from "./setup";
             return await fetch(url).then((res) => res.text());
         } catch (e) {
             return "";
+        }
+    }
+
+    async function retrieve(hash) {
+        try {
+            const data = await fetch("/api/retrieve?hash=" + hash).then((res) => res.json());
+            if (data.error) throw new Error(data.error);
+            return data;
+        } catch (err) {
+            console.log(err);
+            return null;
         }
     }
 })();

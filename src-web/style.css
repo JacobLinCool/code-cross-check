@@ -62,7 +62,7 @@ input[type="file"] {
 
 .upload-label,
 .fetch-label {
-    @apply text-nord10 px-2 cursor-pointer;
+    @apply text-nord10 p-2 cursor-pointer;
 }
 
 .editor-wrap {
@@ -79,7 +79,11 @@ input[type="file"] {
 }
 
 #result {
-    @apply w-full bg-nord4 text-nord0 border border-nord4 rounded py-3 px-4 mb-3 leading-tight font-mono;
+    @apply w-full bg-nord4 text-nord0 border border-nord4 rounded py-3 px-4 mb-3 leading-tight font-mono break-words;
+}
+
+#hash {
+    @apply text-nord9 p-1;
 }
 
 #check {
