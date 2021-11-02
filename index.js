@@ -35,7 +35,7 @@ apiRouter.post("/cross-check", async (ctx) => {
             .setPreprocessor(requireFromString(body.preprocessor))
             .source(body.source_0)
             .source(body.source_1)
-            .go();
+            .go({ timeout: Max.max(Math.min(body.timeout || 5_000, 10_000), 100) });
         const time = Date.now() - StartTime;
         console.log(`[Checker ${checker.id}] Time:`, time, "ms");
         const hash = md5(`${md5(body.testcase)}-${md5(body.preprocessor)}-${md5(body.source_0)}-${md5(body.source_1)}-${md5(JSON.stringify(result))}`);

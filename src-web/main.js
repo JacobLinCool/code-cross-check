@@ -78,11 +78,12 @@ import setUp from "./setup";
         const preprocessor = preprocessor_editor.getValue();
         const source_0 = source_0_editor.getValue();
         const source_1 = source_1_editor.getValue();
+        const timeout = +document.querySelector("#timeout").value || 5000;
 
         const api = fetch("/api/cross-check", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ testcase, preprocessor, source_0, source_1 }),
+            body: JSON.stringify({ testcase, preprocessor, source_0, source_1, timeout }),
         })
             .then((res) => res.json())
             .catch(() => null);
