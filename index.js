@@ -22,6 +22,7 @@ const apiRouter = new Router();
 apiRouter.post("/cross-check", async (ctx) => {
     const { body } = ctx.request;
     ["testcase", "preprocessor", "source_0", "source_1"].forEach((key) => (body[key] = body[key].trim()));
+    const timeout = Math.max(Math.min(body.timeout || 5_000, 10_000), 100);
     console.log(
         Object.keys(body)
             .map((key) => `${key}: ${body[key].length || body[key]}`)
@@ -35,14 +36,16 @@ apiRouter.post("/cross-check", async (ctx) => {
             .setPreprocessor(requireFromString(body.preprocessor))
             .source(body.source_0)
             .source(body.source_1)
-            .go({ timeout: Math.max(Math.min(body.timeout || 5_000, 10_000), 100) });
+            .go({ timeout });
         const time = Date.now() - StartTime;
         console.log(`[Checker ${checker.id}] Time:`, time, "ms");
-        const hash = md5(`${md5(body.testcase)}-${md5(body.preprocessor)}-${md5(body.source_0)}-${md5(body.source_1)}-${md5(JSON.stringify(result))}`);
+        const hash = md5(
+            `${md5(body.testcase)}-${md5(body.preprocessor)}-${md5(body.source_0)}-${md5(body.source_1)}-${md5(JSON.stringify(result))}`
+        ).toLowerCase();
         console.log("HASH:", hash);
         supabase
             .from("records")
-            .insert([{ testcase: body.testcase, preprocessor: body.preprocessor, source_0: body.source_0, source_1: body.source_1, result, hash }])
+            .insert([{ testcase: body.testcase, preprocessor: body.preprocessor, source_0: body.source_0, source_1: body.source_1, result, hash, timeout }])
             .then(({ data, error }) => {
                 if (error) console.log("[Supabase Error]", error);
                 else console.log("[Supabase]", "Size: " + JSON.stringify(data).length);
@@ -58,7 +61,7 @@ apiRouter.post("/cross-check", async (ctx) => {
 apiRouter.get("/retrieve", async (ctx) => {
     const { query } = ctx.request;
     const { hash } = query;
-    const { data, error } = await supabase.from("records").select().eq("hash", hash);
+    const { data, error } = await supabase.from("records").select().eq("hash", hash.toLowerCase());
     console.log("[Supabase]", "Retrieve", hash, "Found", data.length);
     if (data && data.length) {
         ctx.body = JSON.stringify(data[0]);
@@ -76,12 +79,12 @@ app.use(koaBody())
     .use(
         compress({
             filter(content_type) {
-                return /text/i.test(content_type);
+                return /text|json|javascript|css/i.test(content_type);
             },
             threshold: 2048,
             gzip: { flush: require("zlib").constants.Z_SYNC_FLUSH },
             deflate: { flush: require("zlib").constants.Z_SYNC_FLUSH },
-            br: true,
+            br: false,
         })
     )
     .use(mount("/api", apiServer))
