@@ -7,5 +7,9 @@ export default defineConfig({
     build: {
         outDir: "../web",
     },
-    plugins: [monacoEditorPlugin()],
+    plugins: [
+        monacoEditorPlugin({
+            languageWorkers: ["typescript"],
+        }),
+    ],
 });
