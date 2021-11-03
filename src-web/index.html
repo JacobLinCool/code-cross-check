@@ -58,27 +58,32 @@
                     </div>
                 </div>
                 <button id="check">Cross Check</button>
-                <input
-                    id="timeout"
-                    class="
-                        appearance-none
-                        inline-block
-                        w-24
-                        bg-nord5
-                        text-nord0
-                        border border-nord4
-                        py-2
-                        px-4
-                        ml-2
-                        rounded
-                        leading-tight
-                        focus:outline-none focus:bg-nord6
-                    "
-                    type="number"
-                    value="5000"
-                    placeholder="5000"
-                    title="Timeout (ms) [100 ~ 10000]"
-                />
+                <label class="bg-nord4 rounded py-3 px-2 mx-2"
+                    >Timeout
+                    <input
+                        id="timeout"
+                        class="
+                            appearance-none
+                            inline-block
+                            w-20
+                            mx-1
+                            py-2
+                            px-2
+                            bg-nord4
+                            text-nord0
+                            rounded
+                            leading-tight
+                            focus:outline-none focus:bg-nord5
+                            transition
+                            duration-300
+                        "
+                        style="padding: 11px 12px"
+                        type="number"
+                        value="5000"
+                        placeholder="5000"
+                        title="Timeout (ms) [100 ~ 10000]"
+                    />ms</label
+                >
             </div>
             <div class="w-full my-3 py-3">
                 <div class="flex flex-wrap -mx-3 mb-6">
@@ -113,8 +118,9 @@
                                 leading-tight
                                 focus:outline-none focus:bg-nord6
                             "
-                            placeholder="留空按 Enter 即退出"
+                            placeholder="leave blank press Enter to leave"
                         />
+                        <p class="text-gray-600 text-xs italic px-2">press Enter to fetch code</p>
                     </div>
                 </div>
             </div>

@@ -56,6 +56,16 @@ input[type="file"] {
     display: none;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
 .label {
     @apply block uppercase tracking-wide text-nord1 font-bold mb-2 cursor-pointer text-sm;
 }
@@ -87,7 +97,7 @@ input[type="file"] {
 }
 
 #check {
-    @apply bg-nord8 hover:bg-nord9 text-white font-bold py-2 px-4 rounded transition duration-300;
+    @apply bg-nord8 border border-nord8 hover:bg-nord9 hover:border-nord9 text-white font-bold py-2 px-4 rounded transition duration-300;
 }
 
 #container {
