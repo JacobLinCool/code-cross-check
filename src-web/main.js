@@ -63,7 +63,9 @@ import setUp from "./setup";
                 source_0_editor.setValue(data.source_0);
                 source_1_editor.setValue(data.source_1);
                 document.querySelector("#result").innerHTML = viewable(data.result);
+                document.querySelector("#download").style.display = "";
                 document.querySelector("#hash").innerHTML = data.hash;
+                if (data.timeout) document.querySelector("#timeout").value = data.timeout;
                 console.log("Retrieved", data.hash, JSON.stringify(data).length);
             } else {
                 console.log("No data found");
@@ -90,6 +92,7 @@ import setUp from "./setup";
 
         document.querySelector("#check").disabled = true;
         document.querySelector("#download").style.display = "none";
+        document.querySelector("#hash").innerHTML = "";
         document.querySelector("#result").innerHTML = "It May Take A Few Moments. Please Wait.";
         document.querySelector("#result").scrollIntoView({ behavior: "smooth", block: "center" });
         const dots = setInterval(() => {
