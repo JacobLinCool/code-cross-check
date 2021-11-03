@@ -21,10 +21,10 @@ const apiRouter = new Router();
 
 apiRouter.post("/cross-check", async (ctx) => {
     const { body } = ctx.request;
-    Object.keys(body).forEach((key) => (body[key] = body[key].trim()));
+    ["testcase", "preprocessor", "source_0", "source_1"].forEach((key) => (body[key] = body[key].trim()));
     console.log(
         Object.keys(body)
-            .map((key) => `${key}: ${body[key].length}`)
+            .map((key) => `${key}: ${body[key].length || body[key]}`)
             .join(", ")
     );
     const StartTime = Date.now();
@@ -35,7 +35,7 @@ apiRouter.post("/cross-check", async (ctx) => {
             .setPreprocessor(requireFromString(body.preprocessor))
             .source(body.source_0)
             .source(body.source_1)
-            .go({ timeout: Max.max(Math.min(body.timeout || 5_000, 10_000), 100) });
+            .go({ timeout: Math.max(Math.min(body.timeout || 5_000, 10_000), 100) });
         const time = Date.now() - StartTime;
         console.log(`[Checker ${checker.id}] Time:`, time, "ms");
         const hash = md5(`${md5(body.testcase)}-${md5(body.preprocessor)}-${md5(body.source_0)}-${md5(body.source_1)}-${md5(JSON.stringify(result))}`);
