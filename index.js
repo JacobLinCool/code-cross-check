@@ -36,7 +36,7 @@ apiRouter.post("/cross-check", async (ctx) => {
             .setPreprocessor(requireFromString(body.preprocessor))
             .source(body.source_0)
             .source(body.source_1)
-            .go({ timeout });
+            .go({ timeout, gccFlags: ["-O2", "-lm", "-std=gnu99"] });
         const time = Date.now() - StartTime;
         console.log(`[Checker ${checker.id}] Time:`, time, "ms");
         const hash = md5(
@@ -45,7 +45,17 @@ apiRouter.post("/cross-check", async (ctx) => {
         console.log("HASH:", hash);
         supabase
             .from("records")
-            .insert([{ testcase: body.testcase, preprocessor: body.preprocessor, source_0: body.source_0, source_1: body.source_1, result: JSON.stringify(result).length <= 512 * 1024 ? result : null, hash, timeout }])
+            .insert([
+                {
+                    testcase: body.testcase <= 32 * 1024 ? body.testcase : "",
+                    preprocessor: body.preprocessor.length <= 32 * 1024 ? body.preprocessor : "",
+                    source_0: body.source_0.length <= 32 * 1024 ? body.source_0 : "",
+                    source_1: body.source_1.length <= 32 * 1024 ? body.source_1 : "",
+                    result: JSON.stringify(result).length <= 512 * 1024 ? result : null,
+                    hash,
+                    timeout,
+                },
+            ])
             .then(({ data, error }) => {
                 if (error) console.log("[Supabase Error]", error);
                 else console.log("[Supabase]", "Size: " + JSON.stringify(data).length);
