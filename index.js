@@ -45,7 +45,7 @@ apiRouter.post("/cross-check", async (ctx) => {
         console.log("HASH:", hash);
         supabase
             .from("records")
-            .insert([{ testcase: body.testcase, preprocessor: body.preprocessor, source_0: body.source_0, source_1: body.source_1, result, hash, timeout }])
+            .insert([{ testcase: body.testcase, preprocessor: body.preprocessor, source_0: body.source_0, source_1: body.source_1, result: JSON.stringify(result).length <= 512 * 1024 ? result : null, hash, timeout }])
             .then(({ data, error }) => {
                 if (error) console.log("[Supabase Error]", error);
                 else console.log("[Supabase]", "Size: " + JSON.stringify(data).length);
