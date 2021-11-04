@@ -57,12 +57,12 @@ import setUp from "./setup";
         if (hash.length === 32) {
             const data = await retrieve(hash);
             if (data) {
-                downloadable = data.result;
+                downloadable = data.result || "";
                 testcase_editor.setValue(data.testcase);
                 preprocessor_editor.setValue(data.preprocessor);
                 source_0_editor.setValue(data.source_0);
                 source_1_editor.setValue(data.source_1);
-                document.querySelector("#result").innerHTML = viewable(data.result);
+                document.querySelector("#result").innerHTML = data.result ? viewable(data.result) : "";
                 document.querySelector("#download").style.display = "";
                 document.querySelector("#hash").innerHTML = data.hash;
                 if (data.timeout) document.querySelector("#timeout").value = data.timeout;
