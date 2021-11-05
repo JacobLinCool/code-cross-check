@@ -1,11 +1,19 @@
 import "./tailwind.css";
 import "./style.css";
 import setUp from "./setup";
+import { switchPage, pages } from "./switcher";
 
 (async () => {
     let downloadable = null;
 
     const { testcase_editor, preprocessor_editor, source_0_editor, source_1_editor } = await setUp();
+
+    pages.forEach((page) => {
+        document.querySelector(`#${page}-nav`).addEventListener("click", () => {
+            switchPage(page);
+        });
+    });
+
     document.querySelector("#check").addEventListener("click", crossCheck);
     document.querySelector("#download").addEventListener("click", downloadResult);
     document.querySelector("#testcase-file").addEventListener("change", async (e) => {
@@ -14,10 +22,10 @@ import setUp from "./setup";
     document.querySelector("#preprocessor-file").addEventListener("change", async (e) => {
         preprocessor_editor.setValue(await readFile(e.target.files[0]));
     });
-    document.querySelector("#source_0-file").addEventListener("change", async (e) => {
+    document.querySelector("#source-0-file").addEventListener("change", async (e) => {
         source_0_editor.setValue(await readFile(e.target.files[0]));
     });
-    document.querySelector("#source_1-file").addEventListener("change", async (e) => {
+    document.querySelector("#source-1-file").addEventListener("change", async (e) => {
         source_1_editor.setValue(await readFile(e.target.files[0]));
     });
     document.querySelector("#testcase-fetch").addEventListener("click", async () => {
@@ -26,17 +34,11 @@ import setUp from "./setup";
     document.querySelector("#preprocessor-fetch").addEventListener("click", async () => {
         popup(async (val) => preprocessor_editor.setValue(await fetchCode(val)));
     });
-    document.querySelector("#source_0-fetch").addEventListener("click", async () => {
+    document.querySelector("#source-0-fetch").addEventListener("click", async () => {
         popup(async (val) => source_0_editor.setValue(await fetchCode(val)));
     });
-    document.querySelector("#source_1-fetch").addEventListener("click", async () => {
+    document.querySelector("#source-1-fetch").addEventListener("click", async () => {
         popup(async (val) => source_1_editor.setValue(await fetchCode(val)));
-    });
-    document.querySelector("#hash").addEventListener("click", async (e) => {
-        const url = new URL(window.location.origin + window.location.pathname);
-        url.hash = "#" + e.target.innerHTML;
-        const win = window.open("", "_blank");
-        win.location = url;
     });
     [...document.querySelectorAll(".label")].forEach((label) => {
         label.addEventListener("click", (e) => {
@@ -64,8 +66,9 @@ import setUp from "./setup";
                 source_1_editor.setValue(data.source_1);
                 document.querySelector("#result").innerHTML = data.result ? viewable(data.result) : "";
                 document.querySelector("#download").style.display = "";
-                document.querySelector("#hash").innerHTML = data.hash;
+                setHash(data.hash);
                 if (data.timeout) document.querySelector("#timeout").value = data.timeout;
+                switchPage("check");
                 console.log("Retrieved", data.hash, JSON.stringify(data).length);
             } else {
                 console.log("No data found");
@@ -92,7 +95,7 @@ import setUp from "./setup";
 
         document.querySelector("#check").disabled = true;
         document.querySelector("#download").style.display = "none";
-        document.querySelector("#hash").innerHTML = "";
+        setHash("");
         document.querySelector("#result").innerHTML = "It May Take A Few Moments. Please Wait.";
         document.querySelector("#result").scrollIntoView({ behavior: "smooth", block: "center" });
         const dots = setInterval(() => {
@@ -104,10 +107,11 @@ import setUp from "./setup";
             downloadable = result.result;
             document.querySelector("#download").style.display = "";
             document.querySelector("#result").innerHTML = viewable(result.result);
-            document.querySelector("#hash").innerHTML = result.hash;
+            setHash(result.hash);
             console.log(result);
         } else {
             document.querySelector("#result").innerHTML = "Something Went Wrong. Please Try Again.";
+            if (result.error) document.querySelector("#result").innerHTML += `<br>${result.error}<br>${result.message}`;
         }
         document.querySelector("#result").scrollIntoView({ behavior: "smooth", block: "start" });
         document.querySelector("#check").disabled = false;
@@ -171,7 +175,7 @@ import setUp from "./setup";
     }
 
     function popup(callback) {
-        document.querySelector("#container").style.filter = "blur(5px)";
+        document.querySelector("#container").style.filter = "blur(5px) grayscale(0.5)";
         document.querySelector("#popup").style.display = "flex";
         document.querySelector("#popup-input").focus();
         document.querySelector("#popup-input").onkeydown = async (e) => {
@@ -209,5 +213,11 @@ import setUp from "./setup";
             console.log(err);
             return null;
         }
+    }
+
+    function setHash(hash) {
+        document.querySelector("#hash").innerHTML = hash;
+        const url = window.location.origin + window.location.pathname + "#" + hash;
+        document.querySelector("#hash").href = url;
     }
 })();

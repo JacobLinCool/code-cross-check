@@ -275,7 +275,6 @@ function createEditor({ container, language, value = "" }) {
     return monaco.editor.create(container, {
         value: value,
         language: language,
-        scrollBeyondLastLine: false,
         fontSize: 14,
         automaticLayout: true,
         suggest: {
