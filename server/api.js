@@ -72,6 +72,18 @@ apiRouter.get("/retrieve", async (ctx) => {
     else ctx.body = JSON.stringify({ error: "Not Found" });
 });
 
+apiRouter.get("/sys", async (ctx) => {
+    try {
+        ctx.body = JSON.stringify({
+            mem: process.memoryUsage(),
+            cpu: process.cpuUsage(),
+            uptime: process.uptime(),
+        });
+    } catch (err) {
+        ctx.body = JSON.stringify({ error: "ERROR", message: err.message }, null, 2);
+    }
+});
+
 apiServer.use(apiRouter.routes()).use(async (ctx) => {
     if (!ctx.body) ctx.body = JSON.stringify({ error: "ERROR" });
     ctx.type = "application/json";
