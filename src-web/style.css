@@ -57,7 +57,7 @@ input[type="file"] {
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-nord4;
+  @apply bg-nord4 rounded-full;
 }
  
 /* Handle */
