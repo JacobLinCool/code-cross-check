@@ -97,7 +97,7 @@ input[type="number"] {
 }
 
 .footer-item {
-    @apply flex-1 text-center p-1 text-xs sm:text-sm text-nord6;
+    @apply text-center mx-2 p-1 text-xs sm:text-sm text-nord6;
 }
 
 .label {
@@ -111,6 +111,10 @@ input[type="number"] {
 
 .editor-wrap {
     @apply appearance-none block w-full h-full bg-nord4 text-nord0 border border-nord4 rounded-lg mb-3 leading-tight overflow-hidden focus:outline-none focus:bg-nord6 focus:border-nord3 transition duration-300 ease-in-out;
+}
+
+.btn {
+    @apply bg-nord8 border border-nord8 hover:bg-nord9 hover:border-nord9 text-white font-bold py-2 px-4 my-1 rounded transition duration-300;
 }
 
 .success {
@@ -137,7 +141,7 @@ input[type="number"] {
 }
 
 #footer {
-    @apply w-full flex bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 h-6 lg:h-8 mt-2;
+    @apply w-full flex justify-center bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 h-6 lg:h-8 mt-2;
 }
 
 #footer::before {
@@ -164,8 +168,8 @@ input[type="number"] {
     @apply text-nord9 p-1;
 }
 
-#check {
-    @apply bg-nord8 border border-nord8 hover:bg-nord9 hover:border-nord9 text-white font-bold py-2 px-4 rounded transition duration-300;
+#timeout {
+    @apply appearance-none inline-block w-20 mx-1 py-2 px-2 bg-nord4 text-nord0 rounded leading-tight focus:outline-none focus:bg-nord5 transition duration-300;
 }
 
 #check-controls {
@@ -184,3 +188,13 @@ input[type="number"] {
 #popup-input {
     @apply appearance-none block w-full bg-nord5 text-nord0 border border-nord4 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-nord6;
 }
+
+#settings {
+    z-index: 999;
+    @apply w-full h-full fixed top-0 left-0 hidden items-center justify-center;
+}
+
+#settings-body {
+    @apply w-full lg:w-5/6 h-full lg:h-5/6 p-4 bg-nord4 text-nord0 border border-nord3 lg:rounded-lg opacity-0 transition duration-300;
+}
+

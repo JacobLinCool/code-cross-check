@@ -1,3 +1,4 @@
+import { elm } from "./utils";
 const pages = ["testcase", "preprocessor", "source-0", "source-1", "check"];
 
 let current = "";
@@ -8,12 +9,12 @@ function switchPage(page) {
     if (page === current) return;
 
     if (current !== "") {
-        document.querySelector(`.page.current`).classList.remove("current");
-        document.querySelector(`.nav-item.selected`).classList.remove("selected");
+        elm(`.page.current`).classList.remove("current");
+        elm(`.nav-item.selected`).classList.remove("selected");
     }
 
-    document.querySelector(`#${page}-page`).classList.add("current");
-    document.querySelector(`#${page}-nav`).classList.add("selected");
+    elm(`#${page}-page`).classList.add("current");
+    elm(`#${page}-nav`).classList.add("selected");
 
     current = page;
 }

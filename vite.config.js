@@ -8,6 +8,7 @@ export default defineConfig({
     root: "./src-web",
     build: { outDir: "../web" },
     plugins: [
+        monacoEditorPlugin({ languageWorkers: ["typescript"] }),
         VitePWA({
             includeAssets: ["monacoeditorwork/ts.worker.bundle.js", "image/apple-touch-icon.png"],
             manifest: {
@@ -38,7 +39,6 @@ export default defineConfig({
                 maximumFileSizeToCacheInBytes: 10 * 1024 * 1024,
             },
         }),
-        monacoEditorPlugin({ languageWorkers: ["typescript"] }),
         minifyHtml(),
     ],
 });
