@@ -1,0 +1,31 @@
+<svg width="1024" height="1024" xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <title>Layer 1</title>
+        <rect id="background" height="1023" width="1024" y="0" x="0" fill="#2e3440"/>
+        <path class="triangle" fill="#d08770" d="m0,1024l0,-560l560,560l-560,0l0,0l0,0l0,0z" id="tri-lb"/>
+        <path class="triangle" fill="#ebcb8b" d="m0,560l0,-560l560,560l-560,0l0,0l0,0l0,0z" id="tri-lt" transform="rotate(90 280 280)"/>
+        <path class="triangle" fill="#a3be8c" d="m464,560l0,-560l560,560l-560,0l0,0l0,0l0,0z" id="tri-rt" transform="rotate(180 744 280)"/>
+        <path class="triangle" fill="#b48ead" d="m464,1024l0,-560l560,560l-560,0l0,0l0,0l0,0z" id="tri-rb" transform="rotate(-90 744 744)"/>
+        <path class="triangle" fill="#d08770" d="m280,1024l0,-280l280,280l-280,0l0,0l0,0l0,0z" id="tri-lt-sm"/>
+        <path fill="#d08770" d="m260,1024l0,-300l300,300l-300,0l0,0l0,0l0,0z"/>
+        <g transform="translate(295, 400)">
+            <text xml:space="preserve" id="svg_6" y="0">Code</text>
+            <text xml:space="preserve" id="svg_7" y="150">Cross</text>
+            <text xml:space="preserve" id="svg_8" y="300">Check</text>
+        </g>
+    </g>
+    <style>
+        text {
+            font-family: "Source Code Pro", monospace;
+            font-weight: bold;
+            font-style: normal;
+            font-size: 144px;
+            stroke: none;
+            fill: #ffffff;
+            text-anchor: start;
+        }
+        .triangle {
+                filter: drop-shadow(0px 0px 4px #2e3440);
+        }
+    </style>
+</svg>

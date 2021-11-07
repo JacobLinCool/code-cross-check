@@ -2,6 +2,7 @@ import "./tailwind.css";
 import "./style.css";
 import setUp from "./setup";
 import { switchPage, pages } from "./switcher";
+import "./service";
 
 (async () => {
     let downloadable = null;
