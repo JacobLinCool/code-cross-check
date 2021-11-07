@@ -10,7 +10,7 @@ export default defineConfig({
     plugins: [
         monacoEditorPlugin({ languageWorkers: ["typescript"] }),
         VitePWA({
-            includeAssets: ["monacoeditorwork/ts.worker.bundle.js", "image/apple-touch-icon.png"],
+            includeAssets: ["monacoeditorwork/ts.worker.bundle.js", "image/apple-touch-icon.png", "image/icon.rounded.128.png", "assets/codicon.d86f69b1.ttf"],
             manifest: {
                 name: "Code Cross Check",
                 short_name: "Code CC",
