@@ -136,7 +136,7 @@ function viewable({ diff, same }) {
                   .map(
                       ([key, val]) =>
                           `<b>[${key}]</b><br>${val
-                              .map((v) => `TESTCASE: ${v.testcase}<br>STDOUT: <b class="success">${v.stdouts[0]}</b>`)
+                              .map((v) => `TESTCASE: ${v.testcase}<br>STDOUT:<br><b class="success">${v.stdouts[0]}</b>`)
                               .join("<br>---<br>")}`
                   )
                   .join("<br>")

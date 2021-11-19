@@ -161,7 +161,7 @@ input[type="number"] {
 }
 
 #result {
-    @apply flex-1 w-full overflow-y-auto overflow-x-hidden bg-nord4 text-nord0 border border-nord4 rounded py-3 px-4 mb-3 leading-tight font-mono break-words;
+    @apply flex-1 w-full overflow-y-auto overflow-x-hidden bg-nord4 text-nord0 border border-nord4 rounded py-3 px-4 mb-3 leading-tight font-mono break-words whitespace-pre-wrap;
 }
 
 #hash {
