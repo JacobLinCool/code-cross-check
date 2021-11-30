@@ -11,6 +11,10 @@ const size_limit = {
 };
 
 function store({ testcase, preprocessor, source_0, source_1, result, hash, timeout }) {
+    if ((await retrieve(hash)).length !== 0) {
+        log("Duplicate", hash);
+        return;
+    }
     return supabase
         .from("records")
         .insert([

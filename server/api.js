@@ -50,10 +50,11 @@ apiRouter.post("/cross-check", async (ctx) => {
         ).toLowerCase();
         log("HASH:", hash);
 
-        if (body.testcase && body.preprocessor && body.source_0 && body.source_1 && result)
+        if (body.testcase && body.preprocessor && body.source_0 && body.source_1 && result) {
             db.store({ hash, time, result, testcase: body.testcase, preprocessor: body.preprocessor, source_0: body.source_0, source_1: body.source_1 }).catch(
                 (err) => console.error(err)
             );
+        }
 
         ctx.body = JSON.stringify({ result, hash, time }, null, 2);
     } catch (err) {
