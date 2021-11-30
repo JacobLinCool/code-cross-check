@@ -225,7 +225,7 @@ async function checkHash({ testcase_editor, preprocessor_editor, source_0_editor
                 preprocessor_editor.setValue(data.preprocessor);
                 source_0_editor.setValue(data.source_0);
                 source_1_editor.setValue(data.source_1);
-                elm("#result").innerHTML = data.result ? viewable(data.result) : "";
+                elm("#result").innerHTML = data.result ? viewable(data.result) : "No Data. (Too large output may not be stored.)";
                 elm("#download").style.display = "";
                 setHash(data.hash);
                 if (data.timeout) elm("#timeout").value = data.timeout;
