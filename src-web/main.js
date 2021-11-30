@@ -4,6 +4,7 @@ import setUp from "./setup";
 import { switchPage, pages } from "./switcher";
 import { elm, readFile } from "./utils";
 import { removeSW } from "./service";
+import * as storage from "./storage";
 
 let downloadable = null;
 
@@ -47,6 +48,11 @@ function setupListeners({ editor }) {
     elm("#settings-open").addEventListener("click", openSettings);
     elm("#settings-close").addEventListener("click", closeSettings);
     elm("#remove-sw").addEventListener("click", removeSW);
+
+    elm("#trim-long-testcase").checked = storage.get("trim-long-testcase");
+    elm("#trim-long-testcase").addEventListener("click", () => {
+        storage.set("trim-long-testcase", elm("#trim-long-testcase").checked);
+    });
 }
 
 function popup(callback) {
@@ -113,6 +119,9 @@ function setHash(hash) {
 function viewable({ diff, same }) {
     const diffs = Object.values(diff).reduce((acc, cur) => acc + cur.length, 0);
     const sames = Object.values(same).reduce((acc, cur) => acc + cur.length, 0);
+
+    const trim_tc = storage.get("trim-long-testcase");
+
     let html = `<p>There are <b class="${diffs ? "text-nord11" : "text-nord10"}">${diffs}</b> different result${diffs > 1 ? "s" : ""} and <b class="${
         sames ? "text-nord10" : "text-nord11"
     }">${sames}</b> same result${sames > 1 ? "s" : ""} between two programs.</p>---<br>`;
@@ -123,7 +132,14 @@ function viewable({ diff, same }) {
                   .map(
                       ([key, val]) =>
                           `<b>[${key}]</b><br>${val
-                              .map((v) => `TESTCASE: ${v.testcase}<br>STDOUTS:<br><b class="text-nord11">${v.stdouts.join("<br>")}</b>`)
+                              .map(
+                                  (v) =>
+                                      `TESTCASE: ${
+                                          trim_tc && v.testcase.length > 30
+                                              ? v.testcase.substr(0, 20) + " ... " + v.testcase.substr(v.testcase.length - 10)
+                                              : v.testcase
+                                      }<br>STDOUTS:<br><b class="text-nord11">${v.stdouts.join("<br>")}</b>`
+                              )
                               .join("<br>---<br>")}`
                   )
                   .join("<br>")
@@ -136,7 +152,14 @@ function viewable({ diff, same }) {
                   .map(
                       ([key, val]) =>
                           `<b>[${key}]</b><br>${val
-                              .map((v) => `TESTCASE: ${v.testcase}<br>STDOUT:<br><b class="success">${v.stdouts[0]}</b>`)
+                              .map(
+                                  (v) =>
+                                      `TESTCASE: ${
+                                          trim_tc && v.testcase.length > 30
+                                              ? v.testcase.substr(0, 20) + " ... " + v.testcase.substr(v.testcase.length - 10)
+                                              : v.testcase
+                                      }<br>STDOUT:<br><b class="success">${v.stdouts[0]}</b>`
+                              )
                               .join("<br>---<br>")}`
                   )
                   .join("<br>")
