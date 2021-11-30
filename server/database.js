@@ -10,11 +10,12 @@ const size_limit = {
     result: 512 * 1024,
 };
 
-function store({ testcase, preprocessor, source_0, source_1, result, hash, timeout }) {
-    if ((await retrieve(hash)).length !== 0) {
-        log("Duplicate", hash);
-        return;
-    }
+async function store({ testcase, preprocessor, source_0, source_1, result, hash, timeout }) {
+    try {
+        const data = await retrieve(hash);
+        if (data && data.length) return;
+    } catch (err) {}
+
     return supabase
         .from("records")
         .insert([
@@ -35,7 +36,7 @@ function store({ testcase, preprocessor, source_0, source_1, result, hash, timeo
         });
 }
 
-function retrieve(hash) {
+async function retrieve(hash) {
     return supabase
         .from("records")
         .select()
